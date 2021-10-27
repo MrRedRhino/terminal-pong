@@ -11,7 +11,7 @@ class Ball:
         self.pos = [10, 10]
         self.screen = screen
         self.direction = 'SO'  # SO, NO, NW, SW
-
+    
     def draw(self):
         self.screen.addstr(self.pos[1], self.pos[0], '◢ ◣')
         self.screen.addstr(self.pos[1] + 1, self.pos[0], '◥ ◤')

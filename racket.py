@@ -14,8 +14,8 @@ class Racket:
         for i in range(4):
             self.screen.addstr(self.pos[1] + i, self.pos[0], '|')
     
-    def move(self, dir):
-        if dir == 'up' and self.pos[1] > 0:
+    def move(self, direction):
+        if direction == 'up' and self.pos[1] > 0:
             self.pos[1] -= 1
-        elif dir == 'down' and self.pos[1] + 4 < shutil.get_terminal_size().lines:
+        elif direction == 'down' and self.pos[1] + 4 < shutil.get_terminal_size().lines:
             self.pos[1] += 1

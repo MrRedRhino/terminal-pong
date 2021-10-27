@@ -1,7 +1,7 @@
 import shutil
 import keyboard
 import curses
-import time
+from time import sleep
 from ball import Ball
 from racket import Racket
 from font_handler import get_char
@@ -24,6 +24,7 @@ def handle_points(stdscreen):
 
 def main(stdscreen):
     global score
+    has_scored = False
     ball = Ball(stdscreen, screen_size)
     left_racket = Racket(stdscreen, True, screen_size[0])
     right_racket = Racket(stdscreen, False, screen_size[0])
@@ -41,30 +42,30 @@ def main(stdscreen):
         for i in range(screen_size[1]):
             stdscreen.addstr(i, int(screen_size[0] / 2), '|')
         if ball.pos[0] < 3:
-            if ball.pos[1] - 4 < left_racket.pos[1] or ball.pos[1] + 4 > left_racket.pos[1]:
+            if not ball.pos[1] - 2 < left_racket.pos[1] or not ball.pos[1] + 6 > left_racket.pos[1]:
                 score[0] += 1
+                ball.pos = [int(screen_size[0] / 2), int(screen_size[1] / 2)]
+                has_scored = True
 
-        # if ball.pos[0] + 6 > screen_size[0]:
-        #     score[1] += 1
+        if ball.pos[0] + 6 > ball.screen_size[0]:
+            if not ball.pos[1] - 2 < right_racket.pos[1] or not ball.pos[1] + 6 > right_racket.pos[1]:
+                score[0] += 1
+                ball.pos = [int(screen_size[0] / 2), int(screen_size[1] / 2)]
+                has_scored = True
 
         left_racket.draw()
         right_racket.draw()
         ball.move()
 
-        # if ball.pos[0] in [screen_size[0] - 3, screen_size[0] - 4, 1, 0]:
-        #     if not right_racket.pos[1] - 1 < ball.pos[1] + 1 < right_racket.pos[1] + 5:
-        #         score[0] += 1
-        #         ball.pos = [int(screen_size[0] / 2), int(screen_size[1] / 2)]
-        #     if not left_racket.pos[1] - 1 < ball.pos[1] + 1 < left_racket.pos[1] + 5:
-        #         score[1] += 1
-        #         ball.pos = [int(screen_size[0] / 2), int(screen_size[1] / 2)]
-
         handle_points(stdscreen)
         
         stdscreen.refresh()
         stdscreen.clear()
-        # time.sleep(0.03)
-        time.sleep(0.03)
+        if has_scored:
+            sleep(1)
+            has_scored = False
+        else:
+            sleep(0.035)
 
 
 if shutil.get_terminal_size().columns < 80 or shutil.get_terminal_size().lines < 24:
