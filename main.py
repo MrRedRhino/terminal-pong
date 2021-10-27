@@ -67,11 +67,6 @@ def main(stdscreen):
         else:
             sleep(0.035)
 
-
-if shutil.get_terminal_size().columns < 80 or shutil.get_terminal_size().lines < 24:
-    print(f'Your terminal-screen has to be at least 80x24 characters big')
-    quit()
-
 screen_size = [shutil.get_terminal_size().columns, shutil.get_terminal_size().lines]
 
 curses.wrapper(main)
